@@ -14,7 +14,7 @@ app.use(express.json())
 const firebaseConfig = {
   apiKey: process.env.APIKEY,
   authDomain: process.env.AUTHDOMAIN,
-  projectId: process.env.PROJECTID,
+  projectId: "haloanon-6e68f",
   storageBucket: process.env.STORAGEBUCKET,
   messagingSenderId: process.env.MESSAGINGSENDERID,
   appId: process.env.APPID,
@@ -30,6 +30,7 @@ app.get("/", (req: Request, res: Response) => {
 app.post('/google', async (req:Request, res:Response)=>{
   try {
     const {token} = req.body
+    console.log({token});
     const data = await firebase.auth().verifyIdToken(token)
     console.log({data});
     res.status(200).json({msg : "Login Success"})
