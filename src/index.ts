@@ -24,7 +24,7 @@ const firebaseConfig = {
 firebase.initializeApp(firebaseConfig)
 
 app.get("/", (req: Request, res: Response) => {
-  res.send("Express + TypeScript Server");
+  res.send("Selamat datang di sigercode :)");
 });
 
 app.post('/google', async (req:Request, res:Response)=>{
