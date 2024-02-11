@@ -10,4 +10,8 @@ router.use('/user', userRouter)
 router.use("/course", courseRouter)
 router.use("/transaction", transactionRouter)
 
+router.get("/ping", (req, res)=>{
+    res.send("PONG!!!")
+})
+
 export default router

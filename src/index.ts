@@ -5,9 +5,6 @@ import cors from 'cors'
 import db from "./config/db";
 import router from "./routes";
 import User from "./models/Users";
-import Course from "./models/Course";
-import Lesson from "./models/Lesson";
-import Trainer from "./models/Trainer";
 
 dotenv.config();
 
@@ -16,11 +13,15 @@ const port = process.env.PORT || 8000; //change with your port
 app.use(cors())
 app.use(express.urlencoded({extended : false}))
 app.use(express.json())
-//@ts-ignore
-import creadential from '../credential.json'
+
+console.log(process.env.FB_PRIVATE_KEY)
 
 firebase.initializeApp({
-  credential : firebase.credential.cert(creadential)
+  credential : firebase.credential.cert({
+    privateKey : `${process.env.FB_PRIVATE_KEY}`,
+    clientEmail : `${process.env.FB_CLIENT_EMAIL}`,
+    projectId : `${process.env.FB_PROJECT_ID}`
+  })
 })
 
 db.authenticate().then(()=>console.log("DB Connected")).catch(err=>console.log({err}))
@@ -30,13 +31,14 @@ User.sync()
 app.use(`/${process.env.VERSION}`, router)
 
 app.post('/send-notif', async (req:Request, res:Response)=>{
+  const {token} = req.body
   try {
     const response = await firebase.messaging().send({
       notification : {
         title : "Halo",
         body : "test notif dari API"
       },
-      token : "cqgWZYmzRgyGMXxk8VQYhE:APA91bHAOM6jwjuT_O_oyTZHlmsaek0yXT1RMXneEnQ_OCfzbOLzBDKtadxb4o2uslmxoUyYdCAmpq6Y1HgT1Se-7nTfH1yXq4z3-G6GyecQRXgd06nyDoijCwu4MNmH6lnZbuZDyKPS"
+      token
     })
     console.log({response});
     res.status(200).json({response})

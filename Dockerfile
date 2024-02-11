@@ -1,26 +1,15 @@
+FROM node:18
 
-FROM node:14 as build
+WORKDIR /app
 
-WORKDIR /usr/src/app
-
-COPY package*.json ./
-COPY tsconfig.json ./
+COPY package* .
 
 RUN npm install
 
-COPY src ./src
+COPY . .
 
 RUN npm run build
 
-FROM node:14-alpine
-
-WORKDIR /usr/src/app
-
-COPY --from=build /usr/src/app/dist ./dist
-COPY package*.json ./
-
-RUN npm install
-
 EXPOSE 8000
 
-CMD ["node", "dist/index.js"]
+CMD [ "npm", "run", "start" ]
