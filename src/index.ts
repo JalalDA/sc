@@ -2,9 +2,10 @@ import express, { Express, Request, Response } from "express";
 import dotenv from "dotenv";
 import firebase from 'firebase-admin'
 import cors from 'cors'
-import db from "./config/db";
 import router from "./routes";
 import User from "./models/Users";
+import { Sequelize } from "sequelize";
+import db from "./config/db";
 
 dotenv.config();
 
@@ -13,9 +14,6 @@ const port = process.env.PORT || 8000; //change with your port
 app.use(cors())
 app.use(express.urlencoded({extended : false}))
 app.use(express.json())
-
-console.log(process.env.FB_PRIVATE_KEY)
-
 firebase.initializeApp({
   credential : firebase.credential.cert({
     privateKey : `${process.env.FB_PRIVATE_KEY}`,
@@ -23,6 +21,8 @@ firebase.initializeApp({
     projectId : `${process.env.FB_PROJECT_ID}`
   })
 })
+
+// export const db = new Sequelize(`${process.env.POSTGRES_URL}`)
 
 db.authenticate().then(()=>console.log("DB Connected")).catch(err=>console.log({err}))
 

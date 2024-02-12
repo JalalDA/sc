@@ -3,6 +3,7 @@ import db from "../config/db";
 
 
 
+
 const Trainer = db.define("Trainer", {
     trainer_id : {
         type : DataTypes.UUID,
