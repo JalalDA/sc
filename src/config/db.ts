@@ -1,12 +1,6 @@
 import { Sequelize } from "sequelize";
 
-const db = new Sequelize({
-    database : `sigercode`,
-    username :process.env.DB_USERNAME,
-    password : process.env.DB_PASS,
-    host : "localhost",
-    dialect : "postgres",
-})
+const db = new Sequelize("postgresql://postgres:1qaz2wsx%40@167.172.79.6:5432/sigercode")
 
 
 export default db;
