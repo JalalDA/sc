@@ -6,7 +6,7 @@ import jwt from 'jsonwebtoken'
 
 export const register = async (req: Request, res: Response) => {
   try {
-    const { token, fcmToken } = req.body
+    const { token, fcm_token } = req.body
     const data = await firebase.auth().verifyIdToken(token)
     console.log({ data });
     const user = await User.findOne({ where: { email: data?.email } })
@@ -18,7 +18,7 @@ export const register = async (req: Request, res: Response) => {
         email: data?.email,
         phone_number: data?.phone_number || 0,
         photo: data?.picture,
-        fcmToken
+        fcm_token
       })
       acces_token =  jwt.sign({user_id : dataValues.user_id, email : dataValues?.email}, "secret_key", {
         expiresIn: "365d"
