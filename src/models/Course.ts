@@ -13,6 +13,9 @@ const Course = db.define("Course",{
         type : DataTypes.STRING,
         allowNull : false,
     },
+    photo : {
+        type : DataTypes.STRING
+    },
     price_top : {
         type : DataTypes.BIGINT,
         allowNull : false
@@ -35,6 +38,9 @@ const Course = db.define("Course",{
     cateogry : {
         type : DataTypes.UUID
     },
+    will_learn : {
+        type : DataTypes.STRING,
+    },
     trainer : {
         type : DataTypes.UUID
     },
@@ -45,6 +51,9 @@ const Course = db.define("Course",{
         type : DataTypes.STRING
     },
     requirement : {
+        type : DataTypes.STRING
+    },
+    batch_name : {
         type : DataTypes.STRING
     }
 })

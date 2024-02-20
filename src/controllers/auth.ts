@@ -1,3 +1,5 @@
+import dotenv from'dotenv'
+dotenv.config();
 import { Response, Request } from "express";
 import firebase from 'firebase-admin'
 import User from "../models/Users";
@@ -8,7 +10,6 @@ export const register = async (req: Request, res: Response) => {
   try {
     const { token, fcm_token } = req.body
     const data = await firebase.auth().verifyIdToken(token)
-    console.log({ data });
     const user = await User.findOne({ where: { email: data?.email } })
     let acces_token: string = "";
     if (!user) {
@@ -18,13 +19,14 @@ export const register = async (req: Request, res: Response) => {
         email: data?.email,
         phone_number: data?.phone_number || 0,
         photo: data?.picture,
-        fcm_token
+        fcm_token : fcm_token || ""
       })
-      acces_token =  jwt.sign({user_id : dataValues.user_id, email : dataValues?.email}, "secret_key", {
+      acces_token =  jwt.sign({user_id : dataValues.user_id, email : dataValues?.email}, `${process.env.SECRET_KEY}`, {
         expiresIn: "365d"
       })
     }else{
-      acces_token =  jwt.sign({user_id : user.dataValues.user_id, email : user.dataValues?.email}, "secret_key", {
+      user.update({fcm_token})
+      acces_token =  jwt.sign({user_id : user.dataValues.user_id, email : user.dataValues?.email}, `${process.env.SECRET_KEY}`, {
         expiresIn: "365d"
       })
     }

@@ -18,6 +18,9 @@ const UserCourse = db.define("UserCourse", {
     },
     progress : {
         type : DataTypes.BIGINT
+    },
+    payment_status : {
+        type : DataTypes.STRING
     }
 })
 

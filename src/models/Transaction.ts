@@ -1,4 +1,4 @@
-import { DataTypes } from "sequelize";
+import { DataTypes, STRING } from "sequelize";
 import db from "../config/db";
 
 
@@ -7,6 +7,9 @@ const Transactions = db.define("Transaction", {
         type : DataTypes.UUID,
         allowNull : false,
         primaryKey : true
+    },
+    order_id : {
+        type : STRING
     },
     course_id : {
         type : DataTypes.UUID,

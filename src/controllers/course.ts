@@ -17,6 +17,7 @@ export const createCourse = async (req:Request, res:Response)=>{
         about,
         for_who,
         requirement,
+        will_learn,
     } = req.body
     console.log(req.body);
     try {
@@ -34,6 +35,7 @@ export const createCourse = async (req:Request, res:Response)=>{
             about,
             for_who,
             requirement,
+            will_learn
         })
         res.status(200).json({data})
     } catch (error) {
@@ -65,5 +67,68 @@ export const getSingleCourse = async (req:Request, res:Response)=>{
 }
 
 //update course
+export const updateCourse = async(req:Request, res:Response)=>{
+    const {id} = req.params
+    const {
+        name,
+        price_top,
+        price_down,
+        rating, 
+        total_member,
+        duration,
+        level,
+        cateogry,
+        trainer,
+        about,
+        for_who,
+        requirement,
+        will_learn,
+    } = req.body
+    try {
+        const result = await Course.findByPk(id)
+        if(!result){
+            return res.status(404).json({msg : "Kelas tidak ditemukan"})
+        }
+        console.log({result});
+        await result.update({
+            name,
+            price_top,
+            price_down,
+            rating, 
+            total_member,
+            duration,
+            level,
+            cateogry,
+            trainer,
+            about,
+            for_who,
+            requirement,
+            will_learn
+        })
+        res.status(200).json({msg : "Success update course"})
+    } catch (error) {
+        console.log({error});
+        res.status(500).json({error})
+    }
+}
+
+//update image course
+export const updateImageCourse = async(req:Request, res:Response)=>{
+    try {
+        const {id} = req.params
+        const file = req.file
+        const photo = file ? file.path.replace('public', '').replace(/\\/g, '/') : null;
+        const course = await Course.findByPk(id)
+        if(!course){
+            return res.status(404).json({msg : "Course not found"})
+        }
+        await course.update({photo})
+        await course.save();
+        res.status(200).json({msg : "Success update course image"})
+    } catch (error) {
+        console.log({error});
+        res.status(500).json({error})
+    }
+}
 
 //soft delete course

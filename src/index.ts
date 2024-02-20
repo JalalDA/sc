@@ -1,17 +1,18 @@
-import express, { Express, Request, Response } from "express";
 import dotenv from "dotenv";
+dotenv.config();
+import express, { Express, Request, Response } from "express";
 import firebase from 'firebase-admin'
 import cors from 'cors'
 import router from "./routes";
-import User from "./models/Users";
-import { Sequelize } from "sequelize";
 import db from "./config/db";
+import cloudinaryConfig from "./config/cloudinary";
 
-dotenv.config();
 
 const app: Express = express();
 const port = process.env.PORT || 8000; //change with your port
-app.use(cors())
+app.use(cors({
+  origin : ["*", "http://localhost:3000", "https://sigercode.my.id", "http://sigercode.my.id"]
+}))
 app.use(express.urlencoded({extended : false}))
 app.use(express.json())
 firebase.initializeApp({
@@ -26,8 +27,7 @@ firebase.initializeApp({
 
 db.authenticate().then(()=>console.log("DB Connected")).catch(err=>console.log({err}))
 
-User.sync()
-
+app.use(cloudinaryConfig)
 app.use(`/${process.env.VERSION}`, router)
 
 app.post('/send-notif', async (req:Request, res:Response)=>{
