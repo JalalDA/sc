@@ -11,7 +11,7 @@ import cloudinaryConfig from "./config/cloudinary";
 const app: Express = express();
 const port = process.env.PORT || 8000; //change with your port
 app.use(cors({
-  origin : ["*", "http://localhost:3000", "https://sigercode.my.id", "http://sigercode.my.id", "https://sainstek-course.vercel.app"]
+  origin : ["*", "http://localhost:3000", "https://sigercode.my.id", "http://sigercode.my.id", "https://sainstek-course.vercel.app", "https://www.sigercode.my.id", "www.sigercode.my.id"]
 }))
 app.use(express.urlencoded({extended : false}))
 app.use(express.json())
