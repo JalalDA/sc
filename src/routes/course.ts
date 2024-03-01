@@ -6,7 +6,7 @@ const router = Router()
 
 router.get('/', getAllCourse)
 router.get("/:course_id", getSingleCourse)
-router.post("/", createCourse)
+router.post("/", upload.single("photo"), createCourse)
 router.patch("/:id", updateCourse)
 router.patch("/photo/:id", upload.single("photo"), updateImageCourse)
 

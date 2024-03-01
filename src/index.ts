@@ -6,6 +6,11 @@ import cors from 'cors'
 import router from "./routes";
 import db from "./config/db";
 import cloudinaryConfig from "./config/cloudinary";
+import User from "./models/Users";
+import Articles from "./models/Articles";
+import Transactions from "./models/Transaction";
+import Course from "./models/Course";
+import UserCourse from "./models/UserCourse";
 
 
 const app: Express = express();
@@ -14,7 +19,7 @@ app.use(cors({
   origin : ["*", "http://localhost:3000", "https://sigercode.my.id", "http://sigercode.my.id", "https://sainstek-course.vercel.app", "https://www.sigercode.my.id", "www.sigercode.my.id"]
 }))
 app.use(express.urlencoded({extended : false}))
-app.use(express.json())
+app.use(express.json({limit : '50mb'}))
 firebase.initializeApp({
   credential : firebase.credential.cert({
     privateKey : `${process.env.FB_PRIVATE_KEY}`,
@@ -26,6 +31,8 @@ firebase.initializeApp({
 // export const db = new Sequelize(`${process.env.POSTGRES_URL}`)
 
 db.authenticate().then(()=>console.log("DB Connected")).catch(err=>console.log({err}))
+
+User.sync();
 
 app.use(cloudinaryConfig)
 app.use(`/${process.env.VERSION}`, router)

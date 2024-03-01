@@ -7,6 +7,11 @@ const User = db.define("User", {
         primaryKey: true,
         allowNull: false
     },
+    role : {
+        type : DataTypes.ENUM,
+        values : ["Admin", "User", "Trainer"],
+        defaultValue : "User"
+    },
     username: {
         type: DataTypes.STRING,
         allowNull: false,

@@ -4,6 +4,8 @@ import { v4 as uuidV4 } from "uuid";
 
 //create course
 export const createCourse = async (req:Request, res:Response)=>{
+    const file = req.file
+    const photo = file ? file.path.replace('public', '').replace(/\\/g, '/') : null;
     const {
         name,
         price_top,
@@ -19,7 +21,6 @@ export const createCourse = async (req:Request, res:Response)=>{
         requirement,
         will_learn,
     } = req.body
-    console.log(req.body);
     try {
         const data = await Course.create({
             course_id : uuidV4(),
@@ -35,7 +36,8 @@ export const createCourse = async (req:Request, res:Response)=>{
             about,
             for_who,
             requirement,
-            will_learn
+            will_learn,
+            photo
         })
         res.status(200).json({data})
     } catch (error) {

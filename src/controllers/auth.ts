@@ -30,7 +30,8 @@ export const register = async (req: Request, res: Response) => {
         expiresIn: "365d"
       })
     }
-    res.status(200).json({ msg: "Login Success", acces_token })
+    const role = user?.getDataValue("role")
+    res.status(200).json({ msg: "Login Success", acces_token, role,  })
   } catch (error) {
     console.log({ error });
     res.status(500).json({ error })

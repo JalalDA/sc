@@ -35,7 +35,7 @@ const Course = db.define("Course",{
     level : {
         type : DataTypes.STRING
     },
-    cateogry : {
+    category : {
         type : DataTypes.UUID
     },
     will_learn : {
@@ -55,6 +55,9 @@ const Course = db.define("Course",{
     },
     batch_name : {
         type : DataTypes.STRING
+    },
+    start_date : {
+        type : DataTypes.DATE
     }
 })
 
