@@ -11,12 +11,14 @@ import Articles from "./models/Articles";
 import Transactions from "./models/Transaction";
 import Course from "./models/Course";
 import UserCourse from "./models/UserCourse";
+import Lesson from "./models/Lesson";
+import Apply from "./models/Apply";
 
 
 const app: Express = express();
 const port = process.env.PORT || 8000; //change with your port
 app.use(cors({
-  origin : ["*", "http://localhost:3000", "https://sigercode.my.id", "http://sigercode.my.id", "https://sainstek-course.vercel.app", "https://www.sigercode.my.id", "www.sigercode.my.id"]
+  origin : ["*", "http://localhost:3000", "https://sigercode.my.id", "http://sigercode.my.id", "https://sainstek-course.vercel.app", "https://www.sigercode.my.id", "www.sigercode.my.id", "sciencebox.id", "https://sciencebox.id", "https://www.sciencebox.id", "www.sciencebox.id" ]
 }))
 app.use(express.urlencoded({extended : false}))
 app.use(express.json({limit : '50mb'}))
@@ -31,8 +33,6 @@ firebase.initializeApp({
 // export const db = new Sequelize(`${process.env.POSTGRES_URL}`)
 
 db.authenticate().then(()=>console.log("DB Connected")).catch(err=>console.log({err}))
-
-User.sync();
 
 app.use(cloudinaryConfig)
 app.use(`/${process.env.VERSION}`, router)

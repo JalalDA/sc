@@ -1,15 +1,15 @@
 import { DataTypes } from "sequelize";
 import db from "../config/db";
 
-const Lesson = db.define("Lesson", {
-    lesson_id : {
+
+const Task = db.define("Task", {
+    task_id : {
         type : DataTypes.UUID,
         allowNull : false,
         primaryKey : true
     },
     course_id : {
-        type : DataTypes.UUID,
-        allowNull : false
+        type : DataTypes.UUID
     },
     title : {
         type : DataTypes.STRING
@@ -20,18 +20,10 @@ const Lesson = db.define("Lesson", {
     daysto : {
         type : DataTypes.BIGINT
     },
-    comment : {
-        type : DataTypes.STRING
-    },
-    likes : {
-        type : DataTypes.STRING,
-    },
-    share : {
-        type : DataTypes.STRING
-    },
     deleted_at : {
         type : DataTypes.DATE
     }
 })
 
-export default Lesson
+
+export default Task

@@ -2,7 +2,7 @@ import { Request, Response } from "express";
 import Articles from "../models/Articles";
 import { v4 as UUIDV4 } from "uuid";
 import { Op } from "sequelize";
-
+import db from "../config/db";
 
 
 export const createArticles = async (req: Request, res: Response) => {
@@ -49,11 +49,11 @@ export const getArticles = async (req: Request, res: Response) => {
 export const getSingleArticles = async (req:Request, res:Response)=>{
     try {
         const {id} = req.params
-        const articles = await Articles.findByPk(id)
+        const articles = await db.query(`select u.username , u.photo , a.title , a."content" , a.likes , a.shared , a."createdAt"  from "Articles" a join "Users" u on u.user_id  = a.user_id where articles_id = '${id}'`)
         if(!articles){
             return res.status(404).json({msg : "Articles not found"})
         }
-        res.status(200).json({articles})
+        res.status(200).json({articles : articles[0]})
     } catch (error) {
         console.log({error});
         res.status(500).json({error})

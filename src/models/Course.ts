@@ -58,6 +58,9 @@ const Course = db.define("Course",{
     },
     start_date : {
         type : DataTypes.DATE
+    },
+    deleted_at  : {
+        type : DataTypes.DATE
     }
 })
 

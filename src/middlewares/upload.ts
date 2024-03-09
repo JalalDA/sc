@@ -4,7 +4,7 @@ import { v2 as cloudinary } from "cloudinary";
 import path from 'path';
 
 const storage = new CloudinaryStorage({
-    cloudinary: cloudinary
+    cloudinary: cloudinary,
 })
 
 const limit = {
@@ -23,4 +23,18 @@ export const upload = multer({
         callback(null, true)
     },
     
+})
+
+
+export const uploadFile = multer({
+    storage: storage,
+    limits: limit,
+    fileFilter(req, file, callback) {
+        const extName = path.extname(file.originalname)
+        const allowedExt = /pdf/
+        if(!allowedExt.test(extName)){
+            return callback(new Error("Please insert pdf oly"))
+        }
+        callback(null, true)
+    },
 })

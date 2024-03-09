@@ -1,37 +1,33 @@
 import { DataTypes } from "sequelize";
 import db from "../config/db";
 
-const Lesson = db.define("Lesson", {
-    lesson_id : {
+
+const Apply = db.define("Apply", {
+    apply_id : {
         type : DataTypes.UUID,
         allowNull : false,
         primaryKey : true
     },
-    course_id : {
-        type : DataTypes.UUID,
-        allowNull : false
+    username : {
+        type : DataTypes.STRING,
+        allowNull : false,
     },
-    title : {
+    email : {
         type : DataTypes.STRING
     },
-    content : {
+    phone : {
         type : DataTypes.STRING
     },
-    daysto : {
-        type : DataTypes.BIGINT
-    },
-    comment : {
+    resume : {
         type : DataTypes.STRING
     },
-    likes : {
+    address : {
         type : DataTypes.STRING,
     },
-    share : {
-        type : DataTypes.STRING
-    },
+
     deleted_at : {
         type : DataTypes.DATE
     }
 })
 
-export default Lesson
+export default Apply

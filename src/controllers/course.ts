@@ -71,6 +71,8 @@ export const getSingleCourse = async (req:Request, res:Response)=>{
 //update course
 export const updateCourse = async(req:Request, res:Response)=>{
     const {id} = req.params
+    const file = req.file
+    const photo = file ? file.path.replace('public', '').replace(/\\/g, '/') : null;
     const {
         name,
         price_top,
@@ -105,7 +107,8 @@ export const updateCourse = async(req:Request, res:Response)=>{
             about,
             for_who,
             requirement,
-            will_learn
+            will_learn,
+            photo
         })
         res.status(200).json({msg : "Success update course"})
     } catch (error) {

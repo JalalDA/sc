@@ -4,6 +4,7 @@ import { v4 as uuidV4 } from "uuid";
 import coreMidtrans, { midtransSnap } from "../config/midtrans";
 import User from "../models/Users";
 import db from "../config/db";
+import UserCourse from "../models/UserCourse";
 
 
 
@@ -71,7 +72,7 @@ export const createSnapTransaction = async (req: Request, res: Response) => {
     }
     const { gross_amount = "", course_id } = req.body
     const generateOrderId = () => {
-        const prefix = "SGRCD-";
+        const prefix = "SCBX-";
         const timestamp = new Date().getTime().toString();
         const randomDigits = Math.floor(Math.random() * 10000).toString().padStart(4, '0');
         const orderId = `${prefix}${timestamp}${randomDigits}`;
@@ -97,10 +98,20 @@ export const createSnapTransaction = async (req: Request, res: Response) => {
                 gross_amount,
             },
         };
+        //create user course
+        const userCourse = await UserCourse.create({
+            user_course_id : uuidV4(),
+            course_id : transaction.getDataValue("course_id"),
+            user_id,
+            payment_status : "PENDING",
+            progress : 0
+        })
+
         const result = await midtransSnap.createTransaction(parameter);
         return res.status(200).json({
             url: result.redirect_url,
-            transaction
+            transaction,
+            userCourse
         });
     } catch (error) {
         console.log({ error });
