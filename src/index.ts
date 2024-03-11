@@ -15,6 +15,10 @@ import Lesson from "./models/Lesson";
 import Apply from "./models/Apply";
 import Comment from "./models/Comment";
 import Categories from "./models/Categories";
+import Career from "./models/Career";
+import LinkTask from "./models/LinkTask";
+import Task from "./models/Task";
+import Trainer from "./models/Trainer";
 
 
 const app: Express = express();
@@ -36,8 +40,19 @@ firebase.initializeApp({
 
 db.authenticate().then(()=>console.log("DB Connected")).catch(err=>console.log({err}))
 
-Comment.sync();
-Categories.sync();
+Apply.sync()
+Articles.sync()
+Career.sync()
+Categories.sync()
+Comment.sync()
+Course.sync()
+Lesson.sync()
+LinkTask.sync()
+Task.sync()
+Trainer.sync()
+Transactions.sync()
+UserCourse.sync()
+User.sync()
 
 app.use(cloudinaryConfig)
 app.use(`/${process.env.VERSION}`, router)
