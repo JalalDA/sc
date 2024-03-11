@@ -31,7 +31,8 @@ export const register = async (req: Request, res: Response) => {
       })
     }
     const role = user?.getDataValue("role")
-    res.status(200).json({ msg: "Login Success", acces_token, role,  })
+    const id = user?.getDataValue("user_id")
+    res.status(200).json({ msg: "Login Success", acces_token, role, id})
   } catch (error) {
     console.log({ error });
     res.status(500).json({ error })

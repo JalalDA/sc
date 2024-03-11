@@ -13,6 +13,8 @@ import Course from "./models/Course";
 import UserCourse from "./models/UserCourse";
 import Lesson from "./models/Lesson";
 import Apply from "./models/Apply";
+import Comment from "./models/Comment";
+import Categories from "./models/Categories";
 
 
 const app: Express = express();
@@ -33,6 +35,9 @@ firebase.initializeApp({
 // export const db = new Sequelize(`${process.env.POSTGRES_URL}`)
 
 db.authenticate().then(()=>console.log("DB Connected")).catch(err=>console.log({err}))
+
+Comment.sync();
+Categories.sync();
 
 app.use(cloudinaryConfig)
 app.use(`/${process.env.VERSION}`, router)

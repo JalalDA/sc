@@ -7,6 +7,8 @@ import userCourseRouter from './usercourse'
 import articlesRouter from './articles'
 import lessonRouter from './lesson'
 import applyRouter from './apply'
+import commentRouter from './comment'
+import categoryRouter from './categories'
 
 const router = Router()
 router.use('/auth', authRouter)
@@ -17,6 +19,8 @@ router.use("/usercourse", userCourseRouter)
 router.use("/articles", articlesRouter)
 router.use("/lesson", lessonRouter)
 router.use("/apply", applyRouter)
+router.use('/comment', commentRouter)
+router.use('/category', categoryRouter)
 
 router.get("/ping", (req, res)=>{
     res.send("PONG!!!")

@@ -1,7 +1,7 @@
 import { DataTypes } from "sequelize";
 import db from "../config/db";
 
-const Categories = db.define("categories", {
+const Categories = db.define("Categories", {
     category_id : {
         type : DataTypes.UUID,
         primaryKey : true,

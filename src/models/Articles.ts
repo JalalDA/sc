@@ -24,6 +24,9 @@ const Articles = db.define("Articles", {
     },
     category : {
         type : DataTypes.UUID
+    },
+    deleted_at : {
+        type : DataTypes.DATE
     }
 })
 

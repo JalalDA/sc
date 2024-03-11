@@ -9,6 +9,7 @@ export const createArticles = async (req: Request, res: Response) => {
     const {
         content,
         title,
+        category,
     } = req.body
     //@ts-ignore
     const { user_id } = req.payload
@@ -17,6 +18,7 @@ export const createArticles = async (req: Request, res: Response) => {
             articles_id: UUIDV4(),
             user_id,
             content,
+            category,
             title
         })
         res.status(200).json({ articles })
@@ -54,6 +56,46 @@ export const getSingleArticles = async (req:Request, res:Response)=>{
             return res.status(404).json({msg : "Articles not found"})
         }
         res.status(200).json({articles : articles[0]})
+    } catch (error) {
+        console.log({error});
+        res.status(500).json({error})
+    }
+}
+
+export const updateArticles = async(req:Request, res:Response)=>{
+    const {id} = req.body
+    const {
+        content,
+        title,
+    } = req.body
+    try {
+        const articles = await Articles.findByPk(id)
+        if(!articles){
+            return res.status(404).json({msg : "Cannot find articles"})
+        }
+        await articles.update({
+            content,
+            title
+        })
+        await articles.save();
+        res.status(200).json({msg : "Success update article"})
+    } catch (error) {
+        console.log({error});
+        res.status(500).json({error})
+    }
+}
+
+export const deleteArticles = async(req:Request, res:Response)=>{
+    const {id} = req.params
+    try {
+        const article = await Articles.findByPk(id)
+        if(!article){
+            return res.status(404).json({msg : "Article tidak ditemukan"})
+        }
+        await article.update({
+            deleted_at : new Date(Date.now())
+        })
+        res.status(200).json({msg : "success delete article"})
     } catch (error) {
         console.log({error});
         res.status(500).json({error})
