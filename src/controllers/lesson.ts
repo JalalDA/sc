@@ -1,6 +1,7 @@
 import { Request, Response } from "express";
 import Lesson from "../models/Lesson";
 import { v4 as uuidV4 } from "uuid";
+import db from "../config/db";
 
 
 
@@ -33,8 +34,47 @@ export const createLesson = async(req:Request, res:Response)=>{
 export const getLessonByCourseId = async(req:Request, res:Response)=>{
     const {course_id} = req.body
     try {
-        const data = await Lesson.findAll({where : {course_id}})
+        const data = await db.query(`select * from "Lessons" l where l.course_id  = '${course_id}' and l.deleted_at is null `)
         res.status(200).json({data})
+    } catch (error) {
+        console.log({error});
+        res.status(500).json({error})
+    }
+}
+
+export const getSingleLesson = async(req:Request, res:Response)=>{
+    const {id} = req.params
+    try {
+        const data = await Lesson.findByPk(id)
+        if(!data){
+            return res.status(404).json({msg : "Data tidak ditemukan"})
+        }
+        res.status(200).json({data})
+    } catch (error) {
+        console.log({error});
+        res.status(500).json({error})
+    }
+}
+
+export const updateLessonById = async(req:Request, res:Response)=>{
+    const {
+        lesson_id,
+        title, 
+        content,
+        daysto,
+    } = req.body
+    try {
+        const data = await Lesson.findByPk(lesson_id)
+        if(!data){
+            return res.status(404).json({msg : "Data tidak ditemukan"})
+        }
+        await data.update({
+            title,
+            content,
+            daysto
+        })
+        await data.save()
+        res.status(200).json({msg : "Berhasil mengupdate data"})
     } catch (error) {
         console.log({error});
         res.status(500).json({error})

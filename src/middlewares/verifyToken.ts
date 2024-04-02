@@ -8,10 +8,10 @@ const verfyToken = async (req:Request, res :Response, next : NextFunction)=>{
     try {
         //get token
         const token = req.headers.authorization?.split("Bearer ")[1]
-        console.log({token});
+        // console.log({token});
         //verify token dengan jwt
         const decoded = jwt.verify(`${token}`,  `${process.env.SECRET_KEY}`)
-        console.log({decoded});
+        // console.log({decoded});
         //assign ke paylod
         //@ts-ignore
         req.payload = {user_id : decoded?.user_id, email : decoded.email}
